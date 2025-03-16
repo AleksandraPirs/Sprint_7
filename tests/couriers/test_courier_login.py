@@ -24,8 +24,10 @@ class TestLoginCourier:
         logging.info(f"Запрос на логин курьера: {payload}")
         logging.info(f"Ответ сервера: {response.status_code}, {response.json()}")
 
+        # Проверка статус кода перед обращением к JSON
+        assert response.status_code == 200, f"Ожидался статус код 200, но получен {response.status_code}"
         id_courier = response.json()['id']
-        assert response.status_code == 200 and response.json()['id'] == id_courier
+        assert response.json()['id'] == id_courier
 
     @allure.title('Выполнить логин с несуществующим логином и паролем')
     def test_login_courier_with_bad_login_password_return_message_error(self):
@@ -36,7 +38,9 @@ class TestLoginCourier:
         logging.info(f"Запрос на логин курьера: {payload}")
         logging.info(f"Ответ сервера: {response.status_code}, {response.json()}")
 
-        assert response.status_code == 404 and response.json() == {'code': 404, 'message': 'Учетная запись не найдена'}
+        # Проверка статус кода и тела ответа
+        assert response.status_code == 404, f"Ожидался статус код 404, но получен {response.status_code}"
+        assert response.json() == {'code': 404, 'message': 'Учетная запись не найдена'}
 
     @allure.title('Выполнить логин без логина или пароля')
     @pytest.mark.parametrize('login_courier, password_courier', [[generate_login(), ''], ['', generate_password()]])
@@ -48,8 +52,9 @@ class TestLoginCourier:
         logging.info(f"Запрос на логин курьера: {payload}")
         logging.info(f"Ответ сервера: {response.status_code}, {response.json()}")
 
-        assert response.status_code == 400 and response.json() == {'code': 400,
-                                                                   'message': 'Недостаточно данных для входа'}
+        # Проверка статус кода и тела ответа
+        assert response.status_code == 400, f"Ожидался статус код 400, но получен {response.status_code}"
+        assert response.json() == {'code': 400, 'message': 'Недостаточно данных для входа'}
 
     @allure.title('Логин возвращает идентификатор курьера')
     def test_login_courier_return_id_courier(self, create_courier):
