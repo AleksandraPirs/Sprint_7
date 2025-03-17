@@ -35,7 +35,10 @@ class TestCreateOrder:
         logging.info(f"Запрос на создание заказа: {payload_order}")
         logging.info(f"Ответ сервера: {response.status_code}, {response.json()}")
 
-        assert response.status_code == 201
+        # Проверка статус кода и содержимого ответа
+        assert response.status_code == 201, f"Ожидался статус код 201, но получен {response.status_code}"
+        assert 'track' in response.json(), "В ответе отсутствует ключ 'track'"
+        assert isinstance(response.json()['track'], (int, str)), "Ключ 'track' должен быть числом или строкой"
 
     @allure.title('Создать заказ самоката черного и серого цвета')
     def test_create_order_with_color_black_and_grey(self):
@@ -57,7 +60,10 @@ class TestCreateOrder:
         logging.info(f"Запрос на создание заказа: {payload_order}")
         logging.info(f"Ответ сервера: {response.status_code}, {response.json()}")
 
-        assert response.status_code == 201
+        # Проверка статус кода и содержимого ответа
+        assert response.status_code == 201, f"Ожидался статус код 201, но получен {response.status_code}"
+        assert 'track' in response.json(), "В ответе отсутствует ключ 'track'"
+        assert isinstance(response.json()['track'], (int, str)), "Ключ 'track' должен быть числом или строкой"
 
     @allure.title('Создать заказ самоката без цвета')
     def test_create_order_without_color(self):
@@ -79,7 +85,10 @@ class TestCreateOrder:
         logging.info(f"Запрос на создание заказа: {payload_order}")
         logging.info(f"Ответ сервера: {response.status_code}, {response.json()}")
 
-        assert response.status_code == 201
+        # Проверка статус кода и содержимого ответа
+        assert response.status_code == 201, f"Ожидался статус код 201, но получен {response.status_code}"
+        assert 'track' in response.json(), "В ответе отсутствует ключ 'track'"
+        assert isinstance(response.json()['track'], (int, str)), "Ключ 'track' должен быть числом или строкой"
 
     @allure.title('Создать заказ и получить номер заказа')
     def test_create_order_return_code_track_order(self):
@@ -101,4 +110,7 @@ class TestCreateOrder:
         logging.info(f"Запрос на создание заказа: {payload_order}")
         logging.info(f"Ответ сервера: {response.status_code}, {response.json()}")
 
-        assert 'track' in response.json()
+        # Проверка статус кода и содержимого ответа
+        assert response.status_code == 201, f"Ожидался статус код 201, но получен {response.status_code}"
+        assert 'track' in response.json(), "В ответе отсутствует ключ 'track'"
+        assert isinstance(response.json()['track'], (int, str)), "Ключ 'track' должен быть числом или строкой"
